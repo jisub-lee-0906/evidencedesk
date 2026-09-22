@@ -55,9 +55,11 @@ test('validation, body limit, content type, and static allowlist work', async ()
   assert.equal((await ask(url, '연차 휴가', 'text/plain')).status, 415);
   const large = await fetch(`${url}/api/ask`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ question: '가'.repeat(9000) }) });
   assert.equal(large.status, 413);
-  const app = await fetch(`${url}/app.js`);
+  const app = await fetch(`${url}/app.js?build=1`);
   assert.match(app.headers.get('content-type'), /text\/javascript/);
-  assert.equal((await fetch(`${url}/missing.js`)).status, 404);
+  assert.equal(await app.text(), await (await fetch(`${url}/app.js`)).text());
+  assert.equal((await fetch(`${url}/?build=1`)).status, 200);
+  assert.equal((await fetch(`${url}/missing.js?build=1`)).status, 404);
 }));
 
 test('OpenAI adapter builds constrained request and parses mocked JSON', async () => {

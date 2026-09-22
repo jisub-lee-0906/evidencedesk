@@ -49,7 +49,9 @@ function withTimeout(work, timeout) {
 export function createServer({ docs, provider, apiKey = process.env.OPENAI_API_KEY, fetcher = fetch, timeout = 8000 } = {}) {
   return http.createServer(async (request, response) => {
     try {
-      const asset = request.method === 'GET' && assets.get(request.url);
+      // request.url includes a query string; route against the pathname so listed static assets still load.
+      const pathname = new URL(request.url, 'http://localhost').pathname;
+      const asset = request.method === 'GET' && assets.get(pathname);
       if (asset) {
         response.writeHead(200, { 'content-type': `${asset[1]}; charset=utf-8`, 'x-content-type-options': 'nosniff' });
         return response.end(await readFile(new URL(`./public/${asset[0]}`, import.meta.url)));
