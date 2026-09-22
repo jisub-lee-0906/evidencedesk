@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ko"><head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EvidenceDesk</title><link rel="stylesheet" href="/style.css">
+</head><body><main>
+  <h1>EvidenceDesk</h1>
+  <p>가상의 사내 정책 문서 근거 검색 데모입니다. 기본값은 LLM이 아닌 오프라인 추출형 응답입니다.</p>
+  <form id="ask-form"><label for="q">정책 질문</label>
+    <textarea id="q" maxlength="500" required placeholder="예: 출장비는 언제 정산하나요?"></textarea>
+    <button id="ask" type="submit">근거 찾기</button></form>
+  <p id="status" role="status"></p>
+  <section aria-labelledby="answer-title"><h2 id="answer-title">답변</h2><pre id="answer"></pre></section>
+  <section aria-labelledby="evidence-title"><h2 id="evidence-title">근거</h2><ul id="evidence"></ul></section>
+</main><script src="/app.js"></script></body></html>
